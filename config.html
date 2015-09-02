@@ -4,7 +4,7 @@
 
 <head>
 
-	<title>BitWatcher Config</title>
+	<title>CKPoolWatcher Config</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -33,15 +33,14 @@
 		
 		function readConfig() {
 			if(params["config"] != null) {
-				var ddlCurrency = document.getElementById("ddlCurrency");
-				var ddlExchange = document.getElementById("ddlExchange");
-				var chkAverage = document.getElementById("chkAverage");
+				var txtUsername = document.getElementById("txtUsername");
+			
 				//var chkNoGox = document.getElementById("chkNoGox");
 				var chkInvert = document.getElementById("chkInvert");
 				var config = JSON.parse(params["config"]);
-				ddlCurrency.value = config.currency;
-				$(ddlCurrency).selectmenu('refresh', true);
-				currencyChanged();
+				txtUsername.value = config.usernme;
+				$(txtUsername).selectmenu('refresh', true);
+				usernameChanged();
 				ddlExchange.value = config.exchange;
 				chkInvert.value = config.invert ? "true" : "false";
 				chkAverage.checked = config.average;
@@ -118,16 +117,14 @@
 		}
 		
 		function save() {
-			var ddlCurrency = document.getElementById("ddlCurrency");
+			var txtUsername = document.getElementById("txtUsername");
 			var ddlExchange = document.getElementById("ddlExchange");
 			var chkAverage = document.getElementById("chkAverage");
 			//var chkNoGox = document.getElementById("chkNoGox");
 			
 			var config = {
-				currency: ddlCurrency.options[ddlCurrency.selectedIndex].value,
-				exchange: chkAverage.checked ? "" : ddlExchange.options[ddlExchange.selectedIndex].value,
-				average: chkAverage.checked,
-				noGox: false, //chkNoGox.checked,
+				username: ddlCurrency.options[ddlCurrency.selectedIndex].value,
+				api_key: chkAverage.checked ? "" : ddlExchange.options[ddlExchange.selectedIndex].value,,
 				invert: ($('#chkInvert').val() == "true") 
 			}
 			
@@ -150,7 +147,8 @@
 	<div data-role="page">
 		<div data-role="content">
 			<label for="ddlCurrency">Currency</label>
-			<select id="ddlCurrency" onchange="currencyChanged()"></select>			
+			<select id="ddlCurrency" onchange="currencyChanged()"></select>	
+			<input type="text" if="txtUsername" onchange="usernameChanged()" />
 			
 			<input type="checkbox" id="chkAverage" onclick="averageChanged()" />
 			<label for="chkAverage">Average</label>
